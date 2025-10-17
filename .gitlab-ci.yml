@@ -13,13 +13,19 @@ stages:
   - release
   - publish
 
+check-package-log:
+  stage: install
+  script:
+    - ! grep intech.dev package-lock.json
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^release/
+
 install:
   stage: install
   script:
     - npm --userconfig=$NPMRC ci
   tags:
     - cluster
-
 publish-snapshot:
   stage: publish
   only:
