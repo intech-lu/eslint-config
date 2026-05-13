@@ -1,6 +1,6 @@
 {
   "name": "@intech.lu/eslint-config",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "ESLint rules for InTech projects",
   "keywords": [
     "style guide",
@@ -46,13 +46,13 @@
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^1.2.0",
     "eslint-config-prettier": "^10.1.8",
-    "globals": "^17.4.0",
-    "typescript-eslint": "^8.58.0"
+    "globals": "^17.6.0",
+    "typescript-eslint": "^8.59.3"
   },
   "peerDependencies": {
-    "eslint": "^10.1.0"
+    "eslint": "^10.3.0"
   },
   "engines": {
-    "node": ">=24.12.0"
+    "node": ">=24.15.0"
   }
 }
