@@ -254,6 +254,9 @@ export default defineConfig(
       // but we want to do the opposite. See the following article for more
       // information: https://www.totaltypescript.com/type-vs-interface-which-should-you-use
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+      // TypeScript configuration to add 'type' keyword on imports to indicate that
+      // the export exists only in the type system, not at runtime
+      '@typescript-eslint/consistent-type-imports': 'error',
       // TypeScript config already disallows the use of namespaces, but we
       // want to allow them for global namespace augmentation such as ProcessEnv
       // interface augmentation.
