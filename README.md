@@ -17,8 +17,7 @@ Add the InTech ESLint Rules on your existing project.
 
 ### 📋 Requirements
 
-- NPM version >= 9
-- Node.js version >= `v18.18.0`
+- Node.js version >= `v24.18.0`
 
 ### 1️⃣ Step 1: install the ESLint extension for VSCode
 
@@ -29,7 +28,7 @@ Create a `.vscode/settings.json` file with the following configuration at the ro
 ```json
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "eslint.validate": ["javascript", "typescript", "html"]
 }
@@ -40,10 +39,8 @@ Create a `.vscode/settings.json` file with the following configuration at the ro
 Go to the folder of your project and execute the following command:
 
 ```bash
-npm install -D eslint '@intech.lu/eslint-config'
+npm install -D eslint '@intech.lu/eslint-config'@latest
 ```
-
-Note: *You'll have to install ESLint at least version 9 as it includes breaking changes and reworks the way ESLint is executed.*
 
 ### 3️⃣ Step 3: create the ESLint configuration
 
@@ -51,25 +48,27 @@ At the root of your project, create an `eslint.config.mjs` file with the followi
 
 ```js
 import eslintConfig from '@intech.lu/eslint-config';
+import { defineConfig } from 'eslint/config';
 
-export default [ 
+export default defineConfig(
   ...eslintConfig,
-];
+);
 ```
 
 If you need to override the InTech rules for some reason, simply do it by adding rules in your `eslint.config.mjs`, it will override the InTech related ones:
 
 ```js
 import eslintConfig from '@intech.lu/eslint-config';
+import { defineConfig } from 'eslint/config';
 
-export default [ 
+export default defineConfig(
   ...eslintConfig,
   {
     rules: {
       'no-console': 'error', // will switch InTech 'no-console' rule value from 'warn' to 'error'
     }
   },
-];
+);
 ```
 
 ⚠️ *NB: You should always override InTech rules after destructuring `eslintConfig`, otherwise `eslintConfig` will take precedence and override the rules you've just added.*
