@@ -23,7 +23,7 @@ Add the InTech ESLint Rules on your existing project.
 
 - <https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint>
 
-Create a `.vscode/settings.json` file with the following configuration at the root of your project:
+Create a `.vscode/settings.json` file with the following configuration at the root of your project to enable auto-fixing of ESLint issues on save:
 
 ```json
 {
@@ -31,6 +31,16 @@ Create a `.vscode/settings.json` file with the following configuration at the ro
     "source.fixAll.eslint": "explicit"
   },
   "eslint.validate": ["javascript", "typescript", "html"]
+}
+```
+
+Create a `.vscode/extensions.json` file with the following configuration at the root of your project to recommend the ESLint extension to your team members:
+
+```json
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint"
+  ]
 }
 ```
 
