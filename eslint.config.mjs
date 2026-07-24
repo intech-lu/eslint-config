@@ -7,8 +7,8 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 /** @type {import('eslint').Linter.Config} */
-const intechEslintJsConfig =  {
-  files: ['**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
+const intechEslintCommonConfig = {
+  files: ['**/*.{js,jsx,cjs,mjs,ts,tsx,cts,mts}'],
   // http://eslint.org/docs/rules/
   rules: {
     // Methods that alter an array (filtering / mapping / folding) should always
@@ -34,9 +34,6 @@ const intechEslintJsConfig =  {
     // cases where it's useful, like when comparing with null (!= null) to check
     // for both null and undefined.
     'eqeqeq': ['error', 'smart'],
-    // We don't see any good reason to construct a new array using the Array
-    // constructor instead of the array literal notation.
-    'no-array-constructor': 'error',
     // The use of arguments.caller and arguments.callee has been deprecated,
     // so we aim at discouraging their use by disallowing them.
     'no-caller': 'error',
@@ -48,10 +45,6 @@ const intechEslintJsConfig =  {
     // Duplicating imports will make the code unclear and harder to maintain,
     // so we want to enforce a single import per module.
     'no-duplicate-imports': 'error',
-    // Empty functions should not go in production code, as they are a sign of
-    // a mistake or a leftover from development. Just add a comment in the function
-    // body to explain why it's empty and the error will go away.
-    'no-empty-function': 'error',
     // We know that using eval is dangerous and should be avoided, but there are
     // some cases where it's useful, so we'll only warn about it.
     'no-eval': 'warn',
@@ -151,28 +144,6 @@ const intechEslintJsConfig =  {
     // Throwing something other than an Error is an anti-pattern. We must always
     // throw an Error object or an object that inherits from it.
     'no-throw-literal': 'error',
-    // Unused expressions are not a syntax error, but they do not make sense and
-    // have no effect. However we want to allow them in certain useful cases such
-    // as short-circuiting, ternary operators and tagged templates.
-    'no-unused-expressions': [
-      'error',
-      {
-        allowShortCircuit: true,
-        allowTernary: true,
-        allowTaggedTemplates: true,
-      },
-    ],
-    // Using a variable / classes / functions before they're declared can lead to 
-    // confusion. However it's allowed by JavaScript and can be useful in some
-    // situations, so we'll only warn about it.
-    'no-use-before-define': [
-      'warn',
-      {
-        functions: false,
-        classes: false,
-        variables: false,
-      },
-    ],
     // We want to use computed keys only when they are necessary, as they can
     // make the code harder to read.
     'no-useless-computed-key': 'error',
@@ -189,6 +160,88 @@ const intechEslintJsConfig =  {
     // As each file should be UTF-8 encoded, we want to enforce the absence of
     // the Unicode Byte Order Mark (BOM) at the beginning of the file.
     'unicode-bom': ['error'],
+  },
+};
+
+/** @type {import('eslint').Linter.Config} */
+const intechEslintJavaScriptConfig = {
+  files: ['**/*.{js,jsx,cjs,mjs}'],
+  rules: {
+    // TypeScript provides dedicated equivalents for these rules.
+    'no-array-constructor': 'error',
+    'no-empty-function': 'error',
+    'no-magic-numbers': [
+      'error',
+      {
+        detectObjects: true,
+        enforceConst: true,
+        ignore: [-1, 0, 1],
+        ignoreArrayIndexes: true,
+        ignoreDefaultValues: true,
+      },
+    ],
+    'no-unused-expressions': [
+      'error',
+      {
+        allowShortCircuit: true,
+        allowTernary: true,
+        allowTaggedTemplates: true,
+      },
+    ],
+    'no-use-before-define': [
+      'warn',
+      {
+        functions: false,
+        classes: false,
+        variables: false,
+      },
+    ],
+  },
+};
+
+/** @type {import('eslint').Linter.Config} */
+const intechEslintTypeScriptConfig = {
+  files: ['**/*.{ts,tsx,cts,mts}'],
+  rules: {
+    'no-array-constructor': 'off',
+    '@typescript-eslint/no-array-constructor': 'error',
+    'no-empty-function': 'off',
+    '@typescript-eslint/no-empty-function': 'error',
+    'no-magic-numbers': 'off',
+    '@typescript-eslint/no-magic-numbers': [
+      'error',
+      {
+        detectObjects: true,
+        enforceConst: true,
+        ignore: [-1, 0, 1],
+        ignoreArrayIndexes: true,
+        ignoreDefaultValues: true,
+        ignoreEnums: true,
+        ignoreNumericLiteralTypes: true,
+        ignoreTypeIndexes: true,
+      },
+    ],
+    'no-unused-expressions': 'off',
+    '@typescript-eslint/no-unused-expressions': [
+      'error',
+      {
+        allowShortCircuit: true,
+        allowTernary: true,
+        allowTaggedTemplates: true,
+      },
+    ],
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': [
+      'warn',
+      {
+        functions: false,
+        classes: false,
+        variables: false,
+        enums: true,
+        typedefs: true,
+        ignoreTypeReferences: true,
+      },
+    ],
   },
 };
 
@@ -283,10 +336,14 @@ export default defineConfig(
       ],
     },
   },
-  // InTech ESLint JS rules (additional rules + overriding recommended rules)
-  intechEslintJsConfig,
   // InTech ESLint JSON rules (recommended rules)
   ...intechEslintJsonConfig,
   // Disable ESLint rules that conflict with Prettier
   eslintConfigPrettier,
+  // InTech ESLint rules shared by JavaScript and TypeScript
+  intechEslintCommonConfig,
+  // InTech ESLint rules specific to JavaScript
+  intechEslintJavaScriptConfig,
+  // InTech ESLint rules specific to TypeScript
+  intechEslintTypeScriptConfig,
 );
